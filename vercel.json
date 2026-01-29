@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/index.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(css|js|assets)/(.*)",
+      "destination": "/$1/$2"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "src/index.ts"
+    }
+  ]
+}

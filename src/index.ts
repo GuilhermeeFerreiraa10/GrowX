@@ -13,16 +13,21 @@ app.use(express.json());
 app.use(userRouter); 
 app.use(tweetRouter);
 
-const rootPath = path.join(__dirname, "..");
-app.use("/css", express.static(path.join(rootPath, "css")));
-app.use("/js", express.static(path.join(rootPath, "js")));
+const publicPath = path.join(__dirname, ".."); 
+app.use("/css", express.static(path.join(publicPath, "css")));
+app.use("/js", express.static(path.join(publicPath, "js")));
+app.use("/assets", express.static(path.join(publicPath, "assets")));
+
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "main.html"));
+    res.sendFile(path.join(publicPath, "main.html")); 
 });
 
 const PORT = Number(process.env.PORT) || 3333;
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`🚀 Backend rodando em http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, "0.0.0.0", () => {
+        console.log(`🚀 Backend rodando em http://localhost:${PORT}`);
+    });
+}
+
 export default app;
