@@ -39,9 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    let processandoLike = false;
+let processandoLike = false;
     window.curtir = async (tweetId) => {
         if (processandoLike) return; 
+
+        // 1. TRATAMENTO PARA TWEETS FIXOS (Simulação)
         if (tweetId === "1" || tweetId === "2" || tweetId === "3") {
             const tweetFixo = feedPadrao.find(t => t.id === tweetId);
             if (tweetFixo) {
@@ -52,17 +54,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
         }
+
         if (!user.id) return alert("Sincronize seu ID no console!");
-        
+
         const tweetNoFeed = feed.find(t => t.id === tweetId);
         if (tweetNoFeed) {
             tweetNoFeed.euCurti = !tweetNoFeed.euCurti;
             tweetNoFeed.likes += tweetNoFeed.euCurti ? 1 : -1; 
-            renderizarFeed(); 
+            renderizarFeed();
         }
 
         processandoLike = true;
 
+        try {
+            const response = await fetch(`${API_URL}/tweet/like`, { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: user.id,
+                    tweetId: tweetId
+                })
+            });
+            if (!response.ok) {
+                alert("Erro ao processar curtida no servidor.");
+                await carregarTweets(); 
+            } 
+            
+        } catch (error) {
+            console.error("Erro na comunicação:", error);
+            await carregarTweets(); 
+        } finally {
+            processandoLike = false; 
+        }
         try {
             const response = await fetch(`${API_URL}/tweet/like`, { 
                 method: 'POST',
