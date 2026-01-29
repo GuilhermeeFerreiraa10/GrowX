@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnTweetar = document.getElementById('btn-tweetar');
     const btnTema = document.getElementById('theme-toggle');
 
-    const API_URL = 'https://growtweet.vercel.app';
+    const API_URL = 'https://growtweet.vercel.app/api';
     let feed = [];
     let user = { id: '', username: 'Guilherme' };
 

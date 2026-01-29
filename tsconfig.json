@@ -14,6 +14,6 @@
     "noUncheckedIndexedAccess": true,
     "moduleDetection": "force"
   },
-  "include": ["src/**/*.ts", "src/index.ts"],
+  "include": ["src/**/*.ts", "api/index.ts"],
   "exclude": ["prisma.config.ts", "node_modules"]
 }

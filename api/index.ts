@@ -2,8 +2,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import path from "path";
-import userRouter from "./routes/user.router";
-import tweetRouter from "./routes/tweet.router";
+import userRouter from "../src/routes/user.router";
+import tweetRouter from "../src/routes/tweet.router";
 
 const app = express();
 
@@ -29,4 +29,5 @@ if (process.env.NODE_ENV !== 'production') {
         console.log(`🚀 Backend rodando em http://localhost:${PORT}`);
     });
 }
+
 export default app;
