@@ -3,8 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputTweet = document.getElementById('tweet-content');
     const btnTweetar = document.getElementById('btn-tweetar');
     const btnTema = document.getElementById('theme-toggle');
-    
-    let user = JSON.parse(localStorage.getItem('user')) || { id: null, username: 'Visitante' };
+let user = JSON.parse(localStorage.getItem('user')) || { id: 'a248c7da-f067-4d3b-898e-5c3f6537637b', username: 'Guilherme' };
     const API_URL = 'http://localhost:3333';
     let feed = [];
 
@@ -110,11 +109,27 @@ let processandoLike = false;
         }
     };
 
-    if (btnTweetar) {
+if (btnTweetar) {
         btnTweetar.onclick = async () => {
             const texto = inputTweet.value.trim();
             if (!texto) return;
             if (!user.id) return alert("Sincronize seu ID no console!");
+            const novoTweetVisual = {
+                id: "temp-" + Date.now(),
+                nome: user.username || "Guilherme Ferreira",
+                arroba: "ferreirauilhermee",
+                texto: texto,
+                foto: "/assets/fotoDePerfil.jpg",
+                likes: 0,
+                euCurti: false,
+                comments: 0,
+                podeExcluir: true,
+                verificado: true
+            };
+            feed = [novoTweetVisual, ...feed];
+            renderizarFeed(); 
+            inputTweet.value = '';
+            inputTweet.blur();
 
             try {
                 const response = await fetch(`${API_URL}/tweet`, {
@@ -124,11 +139,31 @@ let processandoLike = false;
                 });
 
                 if (response.ok) {
-                    inputTweet.value = '';
-                    await carregarTweets(); 
+                    setTimeout(async () => {
+                        const res = await fetch(`${API_URL}/tweet`);
+                        if (res.ok) {
+                            const tweetsBanco = await res.json();
+                            const feedDaAPI = tweetsBanco.map(t => ({
+                                id: t.id,
+                                nome: t.user?.name || "Guilherme Ferreira",
+                                arroba: t.user?.username || "ferreirauilhermee",
+                                texto: t.content,
+                                foto: "/assets/fotoDePerfil.jpg",
+                                likes: t.likes ? t.likes.length : 0,
+                                euCurti: t.likes ? t.likes.some(like => like.userId === user.id) : false,
+                                comments: 0,
+                                podeExcluir: t.userId === user.id,
+                                verificado: true
+                            }));
+                            feed = [...feedDaAPI, ...feedPadrao];
+                            renderizarFeed();
+                        }
+                    }, 2000); 
                 }
             } catch (error) {
-                alert("Erro ao enviar tweet.");
+                console.error("Erro ao enviar:", error);
+                alert("Erro ao conectar com o servidor.");
+                await carregarTweets();
             }
         };
     }
