@@ -18,13 +18,12 @@ app.use(followRouter);
 
 const publicPath = path.resolve(__dirname, ".."); 
 
-app.use("/css", express.static(path.join(publicPath, "css")));
-app.use("/js", express.static(path.join(publicPath, "js")));
-app.use("/assets", express.static(path.join(publicPath, "assets")));
-
 app.get("/", (req, res) => {
     res.sendFile(path.join(publicPath, "index.html")); 
 });
+app.use("/css", express.static(path.join(publicPath, "css")));
+app.use("/js", express.static(path.join(publicPath, "js")));
+app.use("/assets", express.static(path.join(publicPath, "assets")));
 
 const PORT = Number(process.env.PORT) || 3333;
 app.listen(PORT, "0.0.0.0", () => {
