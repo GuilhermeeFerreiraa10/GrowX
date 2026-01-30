@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnTema = document.getElementById('theme-toggle');
   const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://localhost:3333' 
-    : 'https://growtweet.vercel.app';
+    : 'https://growtweeter.vercel.app/';
 
 
     let feed = [];
@@ -109,8 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const feedDaAPI = tweetsBanco.map(t => ({
                 id: t.id,
-                nome: t.user?.name || "Usuário",
-                arroba: t.user?.username || "usuario",
+                nome: t.user?.name || "Guilherme",
+                arroba: t.user?.username || "guilhermee",
                 texto: t.content,
                 foto: "/assets/fotoDePerfil.jpg",
                 likes: t.likes ? t.likes.length : 0,
