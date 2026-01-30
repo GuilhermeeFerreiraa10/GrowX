@@ -31,7 +31,7 @@ Bem-vindo ao **GrowX**! Este projeto é uma aplicação de rede social funcional
 | :--- | :--- |
 | **HTML5** & **CSS3** (Variáveis modernas) | **Node.js** & **Express** |
 | **JavaScript (ES6+)** | **Postman** (Documentação & Testes) |
-| **Google Fonts** (Inter) | **Git/GitHub** |
+| **Git/GitHub** |
 
 ---
 
